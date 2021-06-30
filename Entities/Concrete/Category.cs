@@ -1,4 +1,4 @@
-﻿using Entities.Abstract;
+﻿using Core.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +13,11 @@ namespace Entities.Concrete
         public int CategoryId { get; set; }
 
          
-        public string Categorytime { get; set; }
+        //public string CategoryTime { get; set; }
+
+        public string CategoryName { get; set; }
+        public string Description { get; set; }
+       
 
     }
 }
