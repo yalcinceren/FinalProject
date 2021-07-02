@@ -1,4 +1,7 @@
-﻿using Entities.Concrete;
+﻿using Business.Abstract;
+using Business.Concrete;
+using DataAccess.Concrete.EntityFramework;
+using Entities.Concrete;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -11,18 +14,50 @@ namespace WebAPI.Controllers
     [ApiController]
     public class ProductsController : Controller
     {
-        [HttpGet]
-        public List<Product> Get()
+        IProductService _productService;
+
+        public ProductsController(IProductService productService)
         {
-            var ret = new List<Product>();
-            Product product = new Product();
-            product.CategoryId = 9;
-            product.ProductId = 8;
-            product.ProductName = "Nur";
-            product.UnitPrice = (decimal)9.99;
-            product.UnitsInStock = 1;
-            ret.Add(product);
-            return ret;
+            _productService = productService;
+        }
+
+        [HttpGet("getall"]
+        public IActionResult GetAll()
+        {
+
+            var result = _productService.GetAll();
+            if (result.Success)
+            {
+                return Ok(result);
+
+            }
+            return BadRequest(result);
+        }
+
+        [HttpGet("getbyId"]
+        public IActionResult GetById(int id)
+        {
+            var result = _productService.GetById(Id);
+            if (result.Success)
+            {
+                return Ok(result);
+
+            }
+
+            return BadRequest(result);
+        }
+
+        [HttpPost("add")]
+
+        public IActionResult Add(Product product)
+        {
+            var result = _productService.Add(product);
+            if (result.Success)
+            {
+                return Ok(result);
+
+            }
+            return BadRequest(result);
         }
     }
 }
